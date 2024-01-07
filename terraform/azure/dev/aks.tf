@@ -17,7 +17,12 @@ resource "azurerm_kubernetes_cluster" "app" {
   identity {
     type = "SystemAssigned"
   }
-
+  
+  network_profile {
+    network_plugin = "azure"
+    service_cidr = "172.16.0.0/12"
+  }
+  
   tags = {
     env = local.env
   }
