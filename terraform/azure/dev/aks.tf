@@ -26,7 +26,7 @@ resource "azurerm_kubernetes_cluster" "app" {
   }
 
   ingress_application_gateway {
-    subnet_id = azurerm_subnet.subnet["subnet-${each.key}-public"].id
+    subnet_id = azurerm_subnet.subnet["subnet-${each.key}-alb"].id
   }
 
   tags = {
