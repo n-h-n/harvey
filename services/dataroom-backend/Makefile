@@ -18,3 +18,15 @@ serve_prod:
 	# For environments with multiple CPU cores, increase the number of workers to be equal to the cores available.
 	# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
 	gunicorn --bind :$$PORT --workers 2 --threads 8 --timeout 0 --keep-alive 2000 main:app
+
+build: 
+	docker build \
+		--file image/Dockerfile \
+		--tag dataroom-backend:latest \
+		.
+
+docker-run: build
+	docker run \
+	-p 0.0.0.0:8000:8000 \
+	--env-file .env \
+	dataroom-backend:latest

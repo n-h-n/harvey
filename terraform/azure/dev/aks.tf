@@ -22,6 +22,11 @@ resource "azurerm_kubernetes_cluster" "app" {
     network_plugin = "azure"
     service_cidr   = "172.16.0.0/16"
     dns_service_ip = "172.16.2.0"
+    outbound_type  = "loadBalancer"
+  }
+
+  ingress_application_gateway {
+    subnet_id = azurerm_subnet.subnet["subnet-${each.key}-public"].id
   }
 
   tags = {
