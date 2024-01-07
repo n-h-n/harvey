@@ -88,14 +88,15 @@ resource "azurerm_network_security_group" "alb_sg" {
   resource_group_name = "app-eastus"
 
   security_rule {
-    name                   = "alb"
-    priority               = 100
-    direction              = "Inbound"
-    access                 = "Allow"
-    protocol               = "*"
-    source_port_range      = "*"
-    destination_port_range = "65200-65535"
-    source_address_prefix  = "*"
+    name                       = "alb"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "65200-65535"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
   security_rule {
