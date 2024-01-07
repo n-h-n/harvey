@@ -159,7 +159,7 @@ resource "azurerm_virtual_network_gateway" "compute_developer_vms" {
   type                       = "Vpn"
   vpn_type                   = "RouteBased"
   generation                 = "Generation1"
-  sku                        = "Standard"
+  sku                        = "VpnGw1"
   active_active              = false
   enable_bgp                 = false
   private_ip_address_enabled = true
