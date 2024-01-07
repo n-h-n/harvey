@@ -122,56 +122,58 @@ resource "azurerm_subnet_network_security_group_association" "subnet_sg" {
   network_security_group_id = azurerm_network_security_group.rg_sg[each.value.resource_group_name].id
 }
 
-// Special VPN subnet so I can access my kubernetes cluster to do some config
-resource "azurerm_subnet" "vpn" {
-  for_each = azurerm_virtual_network.vnet
 
-  name                 = "GatewaySubnet"
-  resource_group_name  = each.key
-  virtual_network_name = each.value.name
-  address_prefixes     = [local.resource_groups[each.key].vpn_cidr]
-}
+// disable for now due to public IP limit on free tier
+# // Special VPN subnet so I can access my kubernetes cluster to do some config
+# resource "azurerm_subnet" "vpn" {
+#   for_each = azurerm_virtual_network.vnet
 
-# Public IP for VPN gateway
-resource "azurerm_public_ip" "vpn" {
-  for_each = azurerm_virtual_network.vnet
+#   name                 = "GatewaySubnet"
+#   resource_group_name  = each.key
+#   virtual_network_name = each.value.name
+#   address_prefixes     = [local.resource_groups[each.key].vpn_cidr]
+# }
 
-  name                = "vpn-${each.key}"
-  location            = each.value.location
-  resource_group_name = each.key
+# # Public IP for VPN gateway
+# resource "azurerm_public_ip" "vpn" {
+#   for_each = azurerm_virtual_network.vnet
 
-  allocation_method = "Static"
-  sku               = "Standard"
+#   name                = "vpn-${each.key}"
+#   location            = each.value.location
+#   resource_group_name = each.key
 
-  tags = {
-    managed-by = "terraform-cloud"
-  }
-}
+#   allocation_method = "Static"
+#   sku               = "Standard"
 
-# developer virtual network gateways for Azure-AWS peering from AWS VPN
-resource "azurerm_virtual_network_gateway" "compute_developer_vms" {
-  for_each = azurerm_subnet.vpn
+#   tags = {
+#     managed-by = "terraform-cloud"
+#   }
+# }
 
-  name                = "vpn-${each.key}"
-  location            = local.resource_groups[each.key].location
-  resource_group_name = each.value.resource_group_name
+# # developer virtual network gateways for Azure-AWS peering from AWS VPN
+# resource "azurerm_virtual_network_gateway" "vpn" {
+#   for_each = azurerm_subnet.vpn
 
-  type                       = "Vpn"
-  vpn_type                   = "RouteBased"
-  generation                 = "Generation1"
-  sku                        = "VpnGw1"
-  active_active              = false
-  enable_bgp                 = false
-  private_ip_address_enabled = true
+#   name                = "vpn-${each.key}"
+#   location            = local.resource_groups[each.key].location
+#   resource_group_name = each.value.resource_group_name
 
-  ip_configuration {
-    name                          = "vnetGatewayConfig"
-    public_ip_address_id          = azurerm_public_ip.vpn[each.value.resource_group_name].id
-    private_ip_address_allocation = "Dynamic"
-    subnet_id                     = each.value.id
-  }
+#   type                       = "Vpn"
+#   vpn_type                   = "RouteBased"
+#   generation                 = "Generation1"
+#   sku                        = "VpnGw1"
+#   active_active              = false
+#   enable_bgp                 = false
+#   private_ip_address_enabled = true
 
-}
+#   ip_configuration {
+#     name                          = "vnetGatewayConfig"
+#     public_ip_address_id          = azurerm_public_ip.vpn[each.value.resource_group_name].id
+#     private_ip_address_allocation = "Dynamic"
+#     subnet_id                     = each.value.id
+#   }
+
+# }
 
 # private Azure VM Domains and records in case we'll need it
 resource "azurerm_private_dns_zone" "vnet" {
