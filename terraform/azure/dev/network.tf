@@ -79,7 +79,78 @@ resource "azurerm_network_security_group" "rg_sg" {
       destination_address_prefix = "*"
     }
   }
+}
 
+resource "azurerm_network_security_group" "alb_sg" {
+  // Quick fix for now for ALB SG rule
+  name                = "sg-alb"
+  location            = "eastus"
+  resource_group_name = "app-eastus"
+
+  security_rule {
+    name                   = "alb"
+    priority               = 100
+    direction              = "Inbound"
+    access                 = "Allow"
+    protocol               = "*"
+    source_port_range      = "*"
+    destination_port_range = "65200-65535"
+    source_address_prefix  = "*"
+  }
+
+  security_rule {
+    name                       = "web"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "outbound"
+    priority                   = 101
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  // Private networks all access
+  dynamic "security_rule" {
+    for_each = {
+      "class-a" = {
+        cidr     = "10.0.0.0/8"
+        priority = 201
+      }
+      "class-b" = {
+        cidr     = "172.16.0.0/12"
+        priority = 202
+      }
+      "class-c" = {
+        cidr     = "192.168.0.0/16"
+        priority = 203
+      }
+    }
+
+    content {
+      name                       = "private-${security_rule.key}"
+      priority                   = security_rule.value.priority
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "*"
+      source_port_range          = "*"
+      destination_port_range     = "*"
+      source_address_prefix      = security_rule.value.cidr
+      destination_address_prefix = "*"
+    }
+  }
 }
 
 // The virtual network
@@ -116,12 +187,17 @@ resource "azurerm_subnet" "subnet" {
 // If I had made the finer-grained SGs mentioned above, then I'd associate them appropriately.
 // But for now just to save time and resources associate the one SG with all subnets
 resource "azurerm_subnet_network_security_group_association" "subnet_sg" {
-  for_each = azurerm_subnet.subnet
+  for_each = { for k, v in azurerm_subnet.subnet : k => v if k != "subnet-app-eastus-alb" }
 
   subnet_id                 = each.value.id
   network_security_group_id = azurerm_network_security_group.rg_sg[each.value.resource_group_name].id
 }
 
+// Separate SG for the ALB subnet
+resource "azurerm_subnet_network_security_group_association" "alb_subnet_sg" {
+  subnet_id                 = azurerm_subnet.subnet["subnet-app-eastus-alb"].id
+  network_security_group_id = azurerm_network_security_group.alb_sg.id
+}
 
 // disable for now due to public IP limit on free tier
 # // Special VPN subnet so I can access my kubernetes cluster to do some config
