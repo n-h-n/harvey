@@ -162,7 +162,7 @@ resource "azurerm_virtual_network_gateway" "compute_developer_vms" {
   sku                        = "Basic"
   active_active              = false
   enable_bgp                 = false
-  private_ip_address_enabled = true
+  private_ip_address_enabled = false
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
