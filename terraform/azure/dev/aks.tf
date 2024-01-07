@@ -20,8 +20,8 @@ resource "azurerm_kubernetes_cluster" "app" {
 
   network_profile {
     network_plugin = "azure"
-    service_cidr   = "172.31.0.0/16"
-    dns_service_ip = "172.31.2.0"
+    service_cidr   = "172.16.0.0/16"
+    dns_service_ip = "172.16.2.0"
   }
 
   tags = {

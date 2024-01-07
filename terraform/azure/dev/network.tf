@@ -141,7 +141,7 @@ resource "azurerm_public_ip" "vpn" {
   resource_group_name = each.key
 
   allocation_method = "Static"
-  sku               = "Basic"
+  sku               = "Standard"
 
   tags = {
     managed-by = "terraform-cloud"
