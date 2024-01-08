@@ -483,6 +483,15 @@ dataroom-backend:
     annotations:
       kubernetes.io/ingress.class: azure/application-gateway
       appgw.ingress.kubernetes.io/use-private-ip: "false"
+    hosts:
+      - host: dataroom-backend.greywind.services
+        paths:
+          - backend:
+              service:
+                name: dataroom-backend
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
 
 
 
