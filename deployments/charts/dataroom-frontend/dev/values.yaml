@@ -29,7 +29,7 @@ dataroom-frontend:
   #
   containerImage:
     repository: greywindacreastus.azurecr.io/dataroom-frontend
-    tag: v49bc415
+    tag: vb76dce2
     pullPolicy: IfNotPresent
 
   # applicationName is a string that names the application. This is used to label the pod and to name the main application
