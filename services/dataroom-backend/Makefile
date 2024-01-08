@@ -24,6 +24,7 @@ build:
 		--file image/Dockerfile \
 		--tag dataroom-backend:latest \
 		.
+.PHONY : build
 
 docker-run: build
 	docker run \

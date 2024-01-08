@@ -50,3 +50,6 @@ operations/variable-scripts/variable.json
 venv
 
 *.env
+
+node_modules/
+build/
