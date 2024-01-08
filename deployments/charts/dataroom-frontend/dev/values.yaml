@@ -507,7 +507,7 @@ dataroom-frontend:
   #   DB_HOST: "mysql.default.svc.cluster.local"
   #   DB_PORT: 3306
   envVars:
-    REACT_APP_API_BASE_URL: http://dataroom-backend
+    REACT_APP_API_BASE_URL: http://dataroom-backend.dataroom.svc.cluster.local:8000
     PORT: 3000
 
   # additionalContainerEnv is a list of additional environment variables

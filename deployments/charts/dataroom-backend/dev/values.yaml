@@ -74,7 +74,7 @@ dataroom-backend:
   # The default config exposes TCP port 80 and binds the name `http` to it.
   containerPorts:
     http:
-      port: 80
+      port: 8000
       protocol: TCP
 
   # dnsPolicy sets the Pod DNS policy. Allowed values are "Default", "ClusterFirst", "ClusterFirstWithHostNet" (not supported on Windows), 
