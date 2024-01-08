@@ -1,5 +1,7 @@
-# Use slim image to reduce the size of the image
-FROM node:21.5-slim
+FROM alpine:latest
+
+# Install nodejs and npm
+RUN apk add --update npm
 
 # Set the working directory in the container to /app
 WORKDIR /app
