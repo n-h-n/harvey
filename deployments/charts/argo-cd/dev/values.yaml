@@ -90,7 +90,7 @@ argo-cd:
     cm:
       exec.enabled: "true"
       statusbadge.enabled: "true"
-      url: https://argocd.greywind.services
+      url: http://argocd.greywind.services
       resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
         jqPathExpressions:
         - '.webhooks[]?.clientConfig.caBundle'
