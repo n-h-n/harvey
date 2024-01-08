@@ -20,7 +20,7 @@ RUN pip install --upgrade pip &&\
     pip install -r requirements.txt
 
 # Make port 80 available to the world outside this container
-EXPOSE 80
+EXPOSE 8000
 
 # Run app.py when the container launches
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "--workers", "1", "--threads", "8", "--timeout", "0", "--reload", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "8", "--timeout", "0", "--reload", "app:app"]

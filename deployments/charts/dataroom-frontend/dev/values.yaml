@@ -74,7 +74,7 @@ dataroom-frontend:
   # The default config exposes TCP port 80 and binds the name `http` to it.
   containerPorts:
     http:
-      port: 80
+      port: 3000
       protocol: TCP
 
   # dnsPolicy sets the Pod DNS policy. Allowed values are "Default", "ClusterFirst", "ClusterFirstWithHostNet" (not supported on Windows), 
@@ -508,7 +508,7 @@ dataroom-frontend:
   #   DB_PORT: 3306
   envVars:
     REACT_APP_API_BASE_URL: "dataroom-backend.greywind.services"
-    PORT: 80
+    PORT: 3000
 
   # additionalContainerEnv is a list of additional environment variables
   # definitions that will be inserted into the Container's environment YAML.
