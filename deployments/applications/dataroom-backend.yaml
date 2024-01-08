@@ -19,7 +19,7 @@ spec:
       kind: "*"
 
   destinations:
-    - namespace: dataroom-backend
+    - namespace: dataroom
       server: "*"
 ---
 apiVersion: argoproj.io/v1alpha1
