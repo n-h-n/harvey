@@ -13,7 +13,7 @@ serve_prod:
 
 build: 
 	docker build \
-		--file image/Dockerfile \
+		--file Dockerfile \
 		--tag dataroom-frontend:latest \
 		.
 .PHONY : build
