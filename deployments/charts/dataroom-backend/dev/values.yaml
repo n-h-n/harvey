@@ -30,7 +30,7 @@ dataroom-backend:
   containerImage:
     repository: greywindacreastus.azurecr.io/dataroom-backend
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
   # applicationName is a string that names the application. This is used to label the pod and to name the main application
   # container in the pod spec. The label is keyed under "gruntwork.io/app-name"
