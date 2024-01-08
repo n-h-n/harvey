@@ -51,7 +51,7 @@ spec:
           releaseName: dataroom-frontend
       destination:
         name: "{{cluster_name}}"
-        namespace: dataroom-frontend
+        namespace: dataroom
     
       syncPolicy:
         automated:
