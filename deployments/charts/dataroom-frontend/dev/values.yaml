@@ -486,7 +486,7 @@ dataroom-frontend:
     hosts:
       - dataroom-frontend.greywind.services
     path: /
-    pathType: ImplementationSpecific
+    pathType: Exact
     frontend:
       service:
         name: dataroom-frontend
