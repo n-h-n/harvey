@@ -485,7 +485,7 @@ dataroom-backend:
       appgw.ingress.kubernetes.io/use-private-ip: "false"
     hosts:
       - dataroom-backend.greywind.services
-    path:
+    path: /
     pathType: ImplementationSpecific
     backend:
       service:
