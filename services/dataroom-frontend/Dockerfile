@@ -5,14 +5,17 @@ FROM node:21.5-slim
 WORKDIR /app
 
 # Add the current directory contents into the container at /app
-ADD . /app
+COPY package*.json ./
+
+RUN npm install \
+    npm install -g serve
 
 RUN apt-get update \
     && apt-get -y install xsel
 
-RUN npm install \
-    npm install -g serve \
-    npm run build
+COPY . .
+
+RUN npm run build
 
 EXPOSE 3000
 

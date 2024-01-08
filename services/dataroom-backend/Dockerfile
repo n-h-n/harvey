@@ -5,7 +5,7 @@ FROM python:3.11-slim AS build-env
 WORKDIR /app
 
 # Add the current directory contents into the container at /app
-ADD . /app
+COPY . /app
 
 # Create uploads directory
 RUN mkdir -p uploads
