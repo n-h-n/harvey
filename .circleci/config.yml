@@ -16,6 +16,7 @@ workflows:
         registry-name: greywindacreastus
         repo: dataroom-backend
         tag: latest # v${CIRCLE_SHA1:0:7} # Usually use the commit SHA as the tag, but for speed's sake we'll use latest
+        extra-build-args: --no-cache
         filters:
           branches:
             only: main # Only deploys when the commit is on the Main branch
@@ -30,6 +31,7 @@ workflows:
         registry-name: greywindacreastus
         repo: dataroom-frontend
         tag: latest # v${CIRCLE_SHA1:0:7} # Usually use the commit SHA as the tag, but for speed's sake we'll use latest
+        extra-build-args: --no-cache
         filters:
           branches:
             only: main # Only deploys when the commit is on the Main branch
