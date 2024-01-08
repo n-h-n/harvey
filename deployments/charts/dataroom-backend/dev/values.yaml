@@ -484,15 +484,13 @@ dataroom-backend:
       kubernetes.io/ingress.class: azure/application-gateway
       appgw.ingress.kubernetes.io/use-private-ip: "false"
     hosts:
-      - host: dataroom-backend.greywind.services
-        paths:
-          - backend:
-              service:
-                name: dataroom-backend
-                port:
-                  number: 80
-            pathType: ImplementationSpecific
-
+      - dataroom-backend.greywind.services
+    path:
+    pathType: ImplementationSpecific
+    backend:
+      service:
+        name: dataroom-backend
+    servicePort: 80
 
 
   # envVars is a map of strings to strings that specifies hard coded environment variables that should be set on the
