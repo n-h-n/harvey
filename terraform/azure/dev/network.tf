@@ -113,7 +113,7 @@ resource "azurerm_network_security_group" "alb_sg" {
 
   security_rule {
     name                       = "web-http"
-    priority                   = 1002
+    priority                   = 1003
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
