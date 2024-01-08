@@ -28,7 +28,7 @@ metadata:
   name: dataroom-backend
 spec:
   generators:
-    - list:
+  - list:
       elements:
         - cluster_env: dev
           cluster_name: dev
