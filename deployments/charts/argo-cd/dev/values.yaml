@@ -46,7 +46,7 @@ argo-cd:
 
   server:
     service:
-      type: LoadBalancer
+      type: ClusterIP
     logFormat: "json"
     metrics:
       enabled: false
