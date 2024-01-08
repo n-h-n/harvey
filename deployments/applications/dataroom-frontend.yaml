@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: dataroom-frontend
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: dataroom-frontend service
+
+  orphanedResources:
+    warn: true
+
+  sourceRepos:
+    - https://github.com/n-h-n/harvey.git
+
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  destinations:
+    - namespace: dataroom-frontend
+      server: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dataroom-frontend
+spec:
+  generators:
+  - list:
+      elements:
+        - cluster_env: dev
+          cluster_name: dev
+          manifest_path: dev
+  template:
+    metadata:
+      name: dataroom-frontend-{{cluster_env}}
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: dataroom-frontend
+  
+      source:
+        repoURL: https://github.com/n-h-n/harvey.git
+        targetRevision: main
+        path: deployments/charts/dataroom-frontend/{{cluster_env}}
+        helm:
+          releaseName: dataroom-frontend
+      destination:
+        name: "{{cluster_name}}"
+        namespace: dataroom-frontend
+    
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: true
+        syncOptions:
+          - Validate=false
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 10m
