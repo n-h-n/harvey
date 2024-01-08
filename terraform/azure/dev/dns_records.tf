@@ -3,7 +3,7 @@ resource "azurerm_dns_a_record" "argocd" {
   zone_name           = azurerm_dns_zone.dns["app-eastus"].name
   resource_group_name = azurerm_resource_group.rg["app-eastus"].name
   ttl                 = 180
-  records             = [data.azurerm_public_ip.appgw_public_ip.id]
+  target_resource_id  = data.azurerm_public_ip.appgw_public_ip.id
 }
 
 resource "azurerm_dns_a_record" "dataroom-frontend" {
@@ -11,7 +11,7 @@ resource "azurerm_dns_a_record" "dataroom-frontend" {
   zone_name           = azurerm_dns_zone.dns["app-eastus"].name
   resource_group_name = azurerm_resource_group.rg["app-eastus"].name
   ttl                 = 180
-  records             = [data.azurerm_public_ip.appgw_public_ip.id]
+  target_resource_id  = data.azurerm_public_ip.appgw_public_ip.id
 }
 
 resource "azurerm_dns_a_record" "dataroom-backend" {
@@ -19,5 +19,5 @@ resource "azurerm_dns_a_record" "dataroom-backend" {
   zone_name           = azurerm_dns_zone.dns["app-eastus"].name
   resource_group_name = azurerm_resource_group.rg["app-eastus"].name
   ttl                 = 180
-  records             = [data.azurerm_public_ip.appgw_public_ip.id]
+  target_resource_id  = data.azurerm_public_ip.appgw_public_ip.id
 }
