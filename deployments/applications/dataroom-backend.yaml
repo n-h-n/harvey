@@ -28,13 +28,11 @@ metadata:
   name: dataroom-backend
 spec:
   generators:
-    - merge:
-        mergeKeys:
-          - "cluster_env"
-        generators:
-          - list:
-              elements:
-                - cluster_env: dev
+    - list:
+      elements:
+        - cluster_env: dev
+          cluster_name: dev
+          manifest_path: dev
   template:
     metadata:
       name: dataroom-backend-{{cluster_env}}
