@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "app" {
 
   default_node_pool {
     name                   = "default"
-    node_count             = 1
+    node_count             = 3
     vm_size                = "Standard_D2as_v5"
     vnet_subnet_id         = azurerm_subnet.subnet["subnet-${each.key}-public"].id
     enable_host_encryption = true

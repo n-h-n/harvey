@@ -268,3 +268,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet" {
   private_dns_zone_name = each.value.name
   virtual_network_id    = azurerm_virtual_network.vnet[each.key].id
 }
+
+resource "azurerm_dns_zone" "dns" {
+  for_each            = azurerm_resource_group.rg
+  name                = "greywind.services"
+  resource_group_name = each.value.name
+}

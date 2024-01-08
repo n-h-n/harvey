@@ -1,0 +1,69 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argo-cd
+  namespace: argo-cd
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: ArgoCD
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - 'https://github.com/n-h-n/harvey.git'
+
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+
+  # Only permit applications to deploy to the guestbook namespace in the same cluster
+  destinations:
+  - namespace: '*'
+    server: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo-cd
+spec:
+  generators:
+  - list:
+      elements:
+        - cluster_name: dev
+          cluster_env: dev
+          manifest_path: dev
+  template:
+    metadata:
+      name: 'argo-cd-{{cluster_env}}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .
+    spec:
+      project: argo-cd
+      source:
+        repoURL: https://github.com/n-h-n/harvey.git
+        targetRevision: HEAD
+        path: deployments/charts/argo-cd/{{manifest_path}}
+        helm:
+          releaseName: argo-cd
+      destination:
+        name: '{{cluster_name}}'
+        namespace: argo-cd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: false
+        syncOptions:
+        - Validate=false
+        - CreateNamespace=true
+        - PrunePropagationPolicy=foreground
+        - PruneLast=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m

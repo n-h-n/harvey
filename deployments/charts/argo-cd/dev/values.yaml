@@ -1,0 +1,148 @@
+argo-cd:
+  fullnameOverride: argocd
+
+  redis-ha:
+    enabled: true
+
+  controller:
+    logFormat: "json"
+    metrics:
+      enabled: false
+
+  repoServer:
+    logFormat: "json"
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: true
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources:
+      requests:
+        cpu: 100m
+        memory: 150Mi
+      limits:
+        cpu: 750m
+        memory: 500Mi
+
+  applicationSet:
+    metrics:
+      enabled: false
+    webhook:
+      ingress:
+        enabled: true
+
+        annotations:
+          kubernetes.io/ingress.class: azure/application-gateway
+          appgw.ingress.kubernetes.io/use-private-ip: "true"
+
+  dex:
+    metrics:
+      enabled: false
+
+  server:
+    logFormat: "json"
+    metrics:
+      enabled: false
+    extensions:
+      enabled: false
+    podAnnotations: {}
+
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources:
+      requests:
+        cpu: 100m
+        memory: 150Mi
+      limits:
+        cpu: 750m
+        memory: 512Mi
+
+    extraArgs:
+    - --insecure
+    - --enable-gzip
+
+    ingress:
+      enabled: true
+
+      hosts:
+      - argocd.greywind.services
+
+      annotations:
+        kubernetes.io/ingress.class: azure/application-gateway
+        appgw.ingress.kubernetes.io/use-private-ip: "false"
+        
+
+    ingressGrpc:
+      enabled: false
+
+  configs:
+    cm:
+      exec.enabled: "true"
+      statusbadge.enabled: "true"
+      url: https://argocd.greywind.services
+      resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
+        jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
+        - '.webhooks[]?.failurePolicy'
+      resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
+        jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
+        - '.webhooks[]?.failurePolicy'
+      resource.customizations.ignoreDifferences.networking.istio.io_VirtualService: |
+        jqPathExpressions:
+        - '.spec.http[]?.route[]?.weight'
+
+      admin.enabled: true
+
+    rbac:
+      policy.csv: |
+        g, viewer, role:readonly
+      scopes: '[email,groups]'
+
+  notifications:
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+
+    notifiers: {}
+
+    secret:
+      create: false
+
+    triggers:
+      trigger.on-sync-status-unknown: |
+        - description: Application status is 'Unknown'
+          send:
+          - app-sync-status-unknown
+          when: app.status.sync.status == 'Unknown'
+      trigger.on-sync-succeeded: |
+        - description: Application syncing has succeeded
+          send:
+          - app-sync-succeeded
+          when: app.status.operationState.phase in ['Succeeded']
+      trigger.on-deployed: |
+        - description: Application is synced and healthy. Triggered once per commit.
+          send:
+          - app-deployed
+          when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+          oncePer: app.status.sync.revision
+      trigger.on-health-degraded: |
+        - description: Application is degraded.
+          send:
+          - app-degraded
+          when: app.status.health.status == 'Degraded'
+      defaultTriggers: |
+        - on-sync-status-unknown
+        - on-sync-succeeded
+        - on-deployed
+        - on-health-degraded
