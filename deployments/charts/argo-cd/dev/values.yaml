@@ -46,7 +46,7 @@ argo-cd:
 
   server:
     service:
-      type: LoadBalancer
+      type: ClusterIP
     logFormat: "json"
     metrics:
       enabled: false
@@ -105,7 +105,7 @@ argo-cd:
 
       admin.enabled: true
 
-      accounts.viewer: apiKey, login
+      accounts.viewer: login
 
     rbac:
       policy.csv: |
