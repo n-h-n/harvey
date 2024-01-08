@@ -3,6 +3,9 @@ argo-cd:
 
   redis-ha:
     enabled: true
+    replicaCount: 2
+    haproxy:
+      replicaCount: 2
 
   controller:
     logFormat: "json"
