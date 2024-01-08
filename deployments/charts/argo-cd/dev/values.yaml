@@ -45,6 +45,8 @@ argo-cd:
       enabled: false
 
   server:
+    service:
+      type: LoadBalancer
     logFormat: "json"
     metrics:
       enabled: false
@@ -78,7 +80,7 @@ argo-cd:
 
       annotations:
         kubernetes.io/ingress.class: azure/application-gateway
-        appgw.ingress.kubernetes.io/use-private-ip: "false"
+        appgw.ingress.kubernetes.io/use-private-ip: "true"
         
 
     ingressGrpc:
