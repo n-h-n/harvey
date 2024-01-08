@@ -17,9 +17,9 @@ resource "azurerm_role_assignment" "aks-acr" {
 resource "azurerm_role_assignment" "cci-acr" {
   for_each = azurerm_resource_group.rg
 
-  principal_id                     = "ec913790-4f86-4a5f-8c77-ab4407dff597" // circle ci service account principal
+  principal_id                     = "b0bd73c0-8379-48ba-bd4f-29084ffafdd1" // circle ci service account principal
   role_definition_name             = "AcrPush"
-  scope                            = aazurerm_container_registry.acr[each.key].id
+  scope                            = azurerm_container_registry.acr[each.key].id
   skip_service_principal_aad_check = true
 }
 
