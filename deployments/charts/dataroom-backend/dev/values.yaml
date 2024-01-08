@@ -490,7 +490,7 @@ dataroom-backend:
     backend:
       service:
         name: dataroom-backend
-    servicePort: 80
+    servicePort: app
 
 
   # envVars is a map of strings to strings that specifies hard coded environment variables that should be set on the
