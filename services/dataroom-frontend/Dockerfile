@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG REACT_APP_API_BASE_URL=http://dataroom-backend.dataroom.svc.cluster.local
+ARG REACT_APP_API_BASE_URL=http://dataroom-backend.dataroom.svc.cluster.local:8000
 
 # Install nodejs and npm
 RUN apk add --update npm
