@@ -29,7 +29,7 @@ dataroom-frontend:
   #
   containerImage:
     repository: greywindacreastus.azurecr.io/dataroom-frontend
-    tag: vb76dce2
+    tag: vceb5d86
     pullPolicy: IfNotPresent
 
   # applicationName is a string that names the application. This is used to label the pod and to name the main application
@@ -485,7 +485,7 @@ dataroom-frontend:
       appgw.ingress.kubernetes.io/use-private-ip: "false"
     hosts:
       - dataroom-frontend.greywind.services
-    path: /login
+    path: /
     pathType: ImplementationSpecific
     frontend:
       service:
