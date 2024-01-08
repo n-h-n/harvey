@@ -1,5 +1,5 @@
 init:
-	nvm install 21.2.0
+	# nvm install 21.2.0
 	npm install
 	npm install -g serve
 

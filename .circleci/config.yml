@@ -15,7 +15,7 @@ workflows:
         login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
         registry-name: greywindacreastus
         repo: dataroom-backend
-        tag: v${CIRCLE_SHA1:0:7} # Use the commit SHA as the tag
+        tag: latest # v${CIRCLE_SHA1:0:7} # Usually use the commit SHA as the tag, but for speed's sake we'll use latest
         filters:
           branches:
             only: main # Only deploys when the commit is on the Main branch
@@ -29,7 +29,7 @@ workflows:
         login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
         registry-name: greywindacreastus
         repo: dataroom-frontend
-        tag: v${CIRCLE_SHA1:0:7} # Use the commit SHA as the tag
+        tag: latest # v${CIRCLE_SHA1:0:7} # Usually use the commit SHA as the tag, but for speed's sake we'll use latest
         filters:
           branches:
             only: main # Only deploys when the commit is on the Main branch
