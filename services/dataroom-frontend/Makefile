@@ -20,6 +20,6 @@ build:
 
 docker-run: build
 	docker run \
-	-p 3000:3000 \
+	-p 80:80 \
 	--env-file .env \
 	dataroom-frontend:latest

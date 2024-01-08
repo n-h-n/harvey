@@ -28,6 +28,6 @@ build:
 
 docker-run: build
 	docker run \
-	-p 0.0.0.0:8000:8000 \
+	-p 0.0.0.0:80:80 \
 	--env-file .env \
 	dataroom-backend:latest

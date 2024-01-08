@@ -506,7 +506,9 @@ dataroom-frontend:
   # envVars:
   #   DB_HOST: "mysql.default.svc.cluster.local"
   #   DB_PORT: 3306
-  envVars: {}
+  envVars:
+    REACT_APP_API_BASE_URL: "dataroom-backend.greywind.services"
+    PORT: 80
 
   # additionalContainerEnv is a list of additional environment variables
   # definitions that will be inserted into the Container's environment YAML.
