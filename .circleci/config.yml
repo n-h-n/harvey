@@ -1,0 +1,35 @@
+version: 2.1 # Use version 2.1 config to get access to orbs, pipelines
+
+orbs:
+  azure-acr: circleci/azure-acr@0.2.1
+
+workflows:
+  build-deploy:
+  jobs:
+  - azure/build-and-push-image:
+      name: backend-build-push
+      context:
+      - greywind
+      dockerfile: Dockerfile # defaults to `Dockerfile`
+      path: services/dataroom-backend/image # Defaults to working directory
+      login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
+      registry-name: greywindacreastus
+      repo: dataroom-backend
+      tag: v${CIRCLE_SHA1:0:7} # Use the commit SHA as the tag
+      filters:
+      branches:
+        only: main # Only deploys when the commit is on the Main branch
+
+  - azure/build-and-push-image:
+      name: frontend-build-push
+      context:
+      - greywind
+      dockerfile: Dockerfile # defaults to `Dockerfile`
+      path: services/dataroom-frontend/image # Defaults to working directory
+      login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
+      registry-name: greywindacreastus
+      repo: dataroom-frontend
+      tag: v${CIRCLE_SHA1:0:7} # Use the commit SHA as the tag
+      filters:
+      branches:
+        only: main # Only deploys when the commit is on the Main branch
