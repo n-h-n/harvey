@@ -2,10 +2,7 @@ argo-cd:
   fullnameOverride: argocd
 
   redis-ha:
-    enabled: true
-    replicaCount: 2
-    haproxy:
-      replicaCount: 2
+    enabled: false
 
   controller:
     logFormat: "json"
