@@ -8,6 +8,8 @@ workflows:
     jobs:
         - azure/build-and-push-image:
             name: backend-build-push
+            context:
+              - greywind
             dockerfile: Dockerfile # defaults to `Dockerfile`
             path: services/dataroom-backend/image # Defaults to working directory
             login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
@@ -20,6 +22,8 @@ workflows:
 
         - azure/build-and-push-image:
             name: frontend-build-push
+            context:
+              - greywind
             dockerfile: Dockerfile # defaults to `Dockerfile`
             path: services/dataroom-frontend/image # Defaults to working directory
             login-server-name: greywindacreastus.azurecr.io # e.g. {yourregistryname}.azure.io
