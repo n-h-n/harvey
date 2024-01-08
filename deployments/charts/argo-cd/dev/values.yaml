@@ -105,6 +105,8 @@ argo-cd:
 
       admin.enabled: true
 
+      accounts.viewer: apiKey, login
+
     rbac:
       policy.csv: |
         g, viewer, role:readonly
