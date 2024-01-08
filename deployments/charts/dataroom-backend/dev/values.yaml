@@ -479,7 +479,7 @@ dataroom-backend:
   #       hosts:
   #         - chart-example.local
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       kubernetes.io/ingress.class: azure/application-gateway
       appgw.ingress.kubernetes.io/use-private-ip: "false"
