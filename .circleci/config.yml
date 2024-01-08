@@ -4,9 +4,9 @@ orbs:
   azure-acr: circleci/azure-acr@0.2.1
 
 workflows:
-  build-deploy:
+  build-and-publish-docker-image:
     jobs:
-    - azure/build-and-push-image:
+    - azure-acr/build-and-push-image:
         name: backend-build-push
         context:
         - greywind
@@ -20,7 +20,7 @@ workflows:
           branches:
             only: main # Only deploys when the commit is on the Main branch
 
-    - azure/build-and-push-image:
+    - azure-acr/build-and-push-image:
         name: frontend-build-push
         context:
         - greywind
