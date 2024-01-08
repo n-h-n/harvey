@@ -94,7 +94,7 @@ resource "azurerm_network_security_group" "alb_sg" {
     access                     = "Allow"
     protocol                   = "*"
     source_port_range          = "*"
-    destination_port_range     = "65200-65535"
+    destination_port_range     = "*" // temporary; TODO: revert to "65200-65535"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -179,6 +179,10 @@ resource "azurerm_virtual_network" "vnet" {
 
   tags = {
     managed-by = "terraform-cloud"
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
@@ -287,4 +291,3 @@ resource "azurerm_dns_zone" "dns" {
   name                = "greywind.services"
   resource_group_name = each.value.name
 }
-

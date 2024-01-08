@@ -5,4 +5,8 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     "managed-by" = "terraform-cloud"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

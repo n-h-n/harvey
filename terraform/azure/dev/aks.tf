@@ -37,4 +37,8 @@ resource "azurerm_kubernetes_cluster" "app" {
   // via service account. Like AWS EKS<->OIDC IAM Role injection into the pods, but for Azure
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

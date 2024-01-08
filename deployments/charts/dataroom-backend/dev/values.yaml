@@ -694,11 +694,11 @@ dataroom-backend:
   # like: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
   containerResources:
     requests:
-      cpu: 400m
-      memory: 400Mi
+      cpu: 300m
+      memory: 300Mi
     limits:
-      cpu: 800m
-      memory: 800Mi
+      cpu: 500m
+      memory: 500Mi
 
   # nodeSelector and affinity specify restrictions on what node this pod should be scheduled on.
   # NOTE: These variables are injected directly into the pod spec. See the official documentation for what this might look

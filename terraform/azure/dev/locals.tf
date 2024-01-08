@@ -25,4 +25,6 @@ locals {
       }
     ]
   ])
+
+  appgw_public_ip = "52.234.168.222"
 }

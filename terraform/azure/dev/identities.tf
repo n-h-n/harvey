@@ -14,14 +14,15 @@ resource "azurerm_role_assignment" "aks-acr" {
   skip_service_principal_aad_check = true
 }
 
-resource "azurerm_role_assignment" "cci-acr" {
-  for_each = azurerm_resource_group.rg
+// Eh, I just made this through the azure CLI and kept it
+# resource "azurerm_role_assignment" "cci-acr" {
+#   for_each = azurerm_resource_group.rg
 
-  principal_id                     = "b0bd73c0-8379-48ba-bd4f-29084ffafdd1" // circle ci service account principal
-  role_definition_name             = "AcrPush"
-  scope                            = azurerm_container_registry.acr[each.key].id
-  skip_service_principal_aad_check = true
-}
+#   principal_id                     = "b0bd73c0-8379-48ba-bd4f-29084ffafdd1" // circle ci service account principal
+#   role_definition_name             = "AcrPush"
+#   scope                            = azurerm_container_registry.acr[each.key].id
+#   skip_service_principal_aad_check = true
+# }
 
 resource "azurerm_user_assigned_identity" "keyvault" {
   for_each = azurerm_resource_group.rg
