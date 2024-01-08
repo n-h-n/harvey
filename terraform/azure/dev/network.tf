@@ -213,7 +213,8 @@ resource "azurerm_subnet_network_security_group_association" "alb_subnet_sg" {
 }
 
 // disable for now due to public IP limit on free tier
-# // Special VPN subnet so I can access my kubernetes cluster to do some config
+// Special VPN subnet if I needs to access my kubernetes cluster to do some config, but control plane
+// should be public via Azure
 # resource "azurerm_subnet" "vpn" {
 #   for_each = azurerm_virtual_network.vnet
 
@@ -286,3 +287,4 @@ resource "azurerm_dns_zone" "dns" {
   name                = "greywind.services"
   resource_group_name = each.value.name
 }
+
