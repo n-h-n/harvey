@@ -745,7 +745,7 @@ dataroom-backend:
   # The default config uses empty string to indicate that the default service account should be used and one shouldn't
   # be created
   serviceAccount:
-    name: "dataroom-backend"
+    name: dataroom-backend
     create: true
     annotations:
       azure.workload.identity/client-id: 84d10110-ef87-4ec3-b3a8-7170d6287610
