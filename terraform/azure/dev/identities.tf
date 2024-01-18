@@ -31,3 +31,52 @@ resource "azurerm_user_assigned_identity" "keyvault" {
   location            = each.value.location
   name                = "mi-appgw-keyvault-${each.key}"
 }
+
+resource "azurerm_user_assigned_identity" "backend" {
+  for_each = azurerm_resource_group.rg
+
+  name                = "mi-backend-${each.key}"
+  resource_group_name = each.key
+  location            = each.value.location
+}
+
+resource "azurerm_user_assigned_identity" "frontend" {
+  for_each = azurerm_resource_group.rg
+
+  name                = "mi-frontend-${each.key}"
+  resource_group_name = each.key
+  location            = each.value.location
+}
+
+resource "azurerm_federated_identity_credential" "backend" {
+  for_each = azurerm_user_assigned_identity.backend
+  
+  name                = "mi-cred-backend-${each.key}"
+  resource_group_name = each.key
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = azurerm_kubernetes_cluster.app[each.key].oidc_issuer_url
+  parent_id           = each.value.id
+  subject             = "system:serviceaccount:dataroom:dataroom-backend"
+}
+
+resource "azurerm_federated_identity_credential" "frontend" {
+  for_each = azurerm_user_assigned_identity.frontend
+  
+  name                = "mi-cred-backend-${each.key}"
+  resource_group_name = each.key
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = azurerm_kubernetes_cluster.app[each.key].oidc_issuer_url
+  parent_id           = each.value.id
+  subject             = "system:serviceaccount:dataroom:dataroom-frontend"
+}
+
+resource "azurerm_role_assignment" "backend" {
+  for_each = azurerm_storage_account.storage
+
+  scope = each.value.id
+
+  // could use role_definition_id here with a custom, more granular role definition we define ourselves
+  role_definition_name = "Storage Blob Data Contributor"
+
+  principal_id = azurerm_user_assigned_identity.backend[each.key].principal_id
+}
