@@ -54,3 +54,5 @@ venv
 node_modules/
 build/
 !services/dataroom-frontend/build/
+Chart.lock
+k8s*.tgz
